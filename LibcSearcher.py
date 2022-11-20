@@ -47,9 +47,15 @@ class LibcSearcher(object):
         for ff in files:
             fd = open(db + ff, "rb")
             data = fd.read().decode(errors='ignore').split("\n")
+            hasCond = False
             for x in res:
                 if any(map(lambda line: x.match(line), data)):
-                    result.append(ff)
+                    hasCond = True
+                else:
+                    hasCond = False
+                    break
+            if hasCond == True:
+                result.append(ff)
             fd.close()
 
         if len(result) == 0:
